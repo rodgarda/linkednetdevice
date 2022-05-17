@@ -1,5 +1,5 @@
 {
-  "name": "changeswitch",
+  "name": "linkednetdevice",
   "version": "1.0.0",
   "description": "application to ping devices  in several phases when making a change to a network device",
   "main": "index.js",

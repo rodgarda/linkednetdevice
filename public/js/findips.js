@@ -128,7 +128,6 @@ function secondRound(){
       })
       .finally(()=>{
         countArr++;
-        console.log(firstIp.length + '-' + countArr);
         if (firstIp.length==countArr) document.getElementById("btround").style.display="";
       })
     }
@@ -141,7 +140,6 @@ function thirdRound(){
   const buttons = document.getElementsByName('bip');
   let countArr=0;
   buttons.forEach((element)=> {
-    console.log(secondIpFail);
     const evalSecondOnline=secondIpFail.includes(element.value)
     if(evalSecondOnline){
       escribeLogReplace(element.value + '....','','notrecover')
