@@ -1,0 +1,19 @@
+.ipok{
+    background-color: greenyellow;    
+    color:black
+}
+
+.ipfail{
+    background-color: black;    
+    color:white
+}
+
+.ipfailsecond{
+    background-color: grey;    
+    color: red
+}
+
+.ipfailthird{
+    background-color: red;    
+    color: white
+}

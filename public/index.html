@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="./css/elements.css" media="screen" />
+        <link rel="stylesheet" type="text/css" href="./css/status.css" media="screen" />
+        <title>Ips online</title>
+    </head>
+    <body>
+        <header>
+            <div id="dhsup" class="hsup">
+                <label for="tipi">Ip Inicial</label>
+                <input type="text" name="pip" id="tipi" maxlength="15" placeholder="Ip Inicial">
+                <label for="tipf">Ip final</label>
+                <input type="text" name="sip" id="tipf" maxlength="15" placeholder="Ip Final" >
+                <button name="fround" id="bfround" value="First Round" onclick="firstRound()">First Round</button>
+                <button name="fround" id="bsround" value="Second Round" onclick="secondRound()">Second Round</button>
+                <button name="fround" id="btround" value="Third Round" onclick="thirdRound()">Third Round</button>
+                <h1>Ips Online</h1>
+            </div>
+            <div id="dbbuttons" class="dbutton">
+
+            </div>
+            <div id="dbtext" class="dtext">
+                <textarea id="process" class="process" readonly="readonly"></textarea>
+                <textarea id ="offline" class="offline" readonly="readonly"></textarea>
+                <textarea id="notrecover" class="notrecover" readonly="readonly"></textarea>
+            </div>
+            <div id="derror" class="error">
+
+            </div>
+        </header>
+        <main></main>
+        <footer><h2 class="footer">David Rodríguez García</h2> <h3 class="social">https://github.com/rodgarda</h3></footer>
+    </body>
+    <script src="./js/findips.js"></script>
+</html>
