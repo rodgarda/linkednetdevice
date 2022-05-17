@@ -23,6 +23,8 @@ function valideData(){
         const valFin=arrIp2[3]
         const baseIp=arrIp1[0]+'.'+ arrIp1[1]+'.'+arrIp1[2]+'.'
         borraBoton('dbbuttons');
+        document.getElementById("bsround").style.display="none"
+        document.getElementById("btround").style.display="none"
         firstIp.length=0;
         secondIpFail.length=0;
         if (valIni<valFin){
@@ -124,6 +126,7 @@ function secondRound(){
       .catch((err)=>{
         element.className="ipfailsecond"
         secondIpFail.push(element.value);
+        escribeLogReplace(element.value + '....','','offline')
         escribeLog(element.value + '....FAIL','offline')
       })
       .finally(()=>{
@@ -142,14 +145,15 @@ function thirdRound(){
   buttons.forEach((element)=> {
     const evalSecondOnline=secondIpFail.includes(element.value)
     if(evalSecondOnline){
-      escribeLogReplace(element.value + '....','','notrecover')
+      escribeLog(element.value + '....','notrecover')
       callIpUrl(element.value)
       .then((data)=>{
-        escribeLog(element.value + '....FAIL','notrecover')
         element.className="ipok"
+        escribeLogReplace(element.value + '....',element.value + '....OK','notrecover')
       })
       .catch((err)=>{
         element.className="ipfailthird"
+        escribeLogReplace(element.value + '....','','notrecover')
         escribeLog(element.value + '....FAIL','notrecover')
       })
       .finally(()=>{
