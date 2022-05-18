@@ -1,11 +1,16 @@
 body {
-    background-color: black;
+    background-color: #002740;
     background-image: url("../img/network.jpg");
-    backdrop-filter: blur(6px);
+    backdrop-filter: blur(2px);
+  }
+
+  footer{
+    background-color:#002740;
+    color:#DFE5E6
   }
 
   h1{
-      color:#03fc13;
+      color:#286C8C;
   }
 textarea{
     width:95%;
@@ -14,9 +19,9 @@ textarea{
     float: left;
     padding:15px 15px 30px;
     border-radius:3px;
-    border:1px solid #03fc13;
-    background-color: #0e0c00;
-    color:greenyellow;
+    border:1px solid #01405D;
+    background-color: #002740;
+    color:#DFE5E6;
     font:13px Tahoma, cursive;
     transition:box-shadow 0.5s ease;
     box-shadow:0 4px 6px rgba(0,0,0,0.1);
@@ -36,5 +41,5 @@ textarea{
 }
 
 label{
-    color:white;
+    color:#DFE5E6;
 }

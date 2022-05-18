@@ -10,6 +10,9 @@
     <body>
         <header>
             <div id="dhsup" class="hsup">
+                <label for="srange">Ranges</label>
+                <select id="srange" name ="rangesip" onchange="putDataText(this.value)">
+                </select>
                 <label for="tipi">Ip Inicial</label>
                 <input type="text" name="pip" id="tipi" maxlength="15" placeholder="Ip Inicial">
                 <label for="tipf">Ip final</label>

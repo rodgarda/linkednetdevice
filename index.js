@@ -3,6 +3,7 @@ const path=require("path")
 const app=express();
 const Port=3000;
 var tcpp = require('tcp-ping');
+const ranges=require('./public/data/ranges')
 
 
 var publicPath = path.resolve(__dirname, 'public'); 
@@ -13,7 +14,7 @@ app.get("/",(req,res)=>{
 })
 app.get("/device/",(req,res)=>{
     const {ip}=req.query;
-    console.log(ip);
+    console.log("Evaluating " + ip);
     tcpp.ping({ address: ip,attempts:3 }, function(err, data) {;
         let tot=0;
         data.results.forEach(element => {
@@ -28,6 +29,11 @@ app.get("/device/",(req,res)=>{
             res.send(JSON.stringify({ status: 400  }));
         }
     });
+})
+
+app.get("/ranges",(req,res)=>{
+    res.send(JSON.stringify({ data:ranges.rangeIp }));
+    
 })
 app.listen(Port,()=>{
     console.log("Server Running on Port " + Port)

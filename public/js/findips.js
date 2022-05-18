@@ -1,20 +1,31 @@
 var firstIp =new Array();
 var secondIpFail =new Array();
+
 document.getElementById("bsround").style.display="none";
 document.getElementById("btround").style.display="none";
 
-function valideIp(textip){
+
+const valideIp=function(textip){
   if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(textip))
   {
-    return (true)
+      return (true)
   }
-    return (false)
+  return (false)
 }
 
+const groupBy=function(arr, criteria) {
+  const newObj = arr.reduce(function (acc, currentValue) {
+      if (!acc[currentValue[criteria]]) {
+        acc[currentValue[criteria]] = [];
+      }
+      acc[currentValue[criteria]].push(currentValue);
+      return acc;
+    }, {});
+    return newObj
+}
 function valideData(){
   const fip=document.getElementById('tipi');
   const sip=document.getElementById('tipf');
-  
   if(valideIp(fip.value)==true){
       const arrIp1=fip.value.split('.')
       if(valideIp(sip.value)==true){
@@ -38,6 +49,30 @@ function valideData(){
   }
   return false
 }
+
+function loadRanges(){
+  getRanges()
+  .then((ranges)=>{
+    const rangesGroup=groupBy(ranges.data,'name');
+    const selectra=document.getElementById('srange')
+    for (let name in rangesGroup){
+      let optgroup=document.createElement("optgroup");
+      optgroup.label=name;
+      for(let i=0; i < rangesGroup[name].length; i++){ 
+          let option = document.createElement("option");
+          option.setAttribute("value", rangesGroup[name][i]['ipini'] + '-' + rangesGroup[name][i]['ipfin']);
+          option.innerHTML=rangesGroup[name][i]['subname'] + '-' + rangesGroup[name][i]['ipini'] + '-' + rangesGroup[name][i]['ipfin'];
+          optgroup.appendChild(option)
+        }
+        selectra.appendChild(optgroup);
+
+    }
+  })
+  .catch((err)=>{
+    console.log(err)
+  })
+}
+
 
 function creaBoton(div,ip,pos){
   const button = document.createElement('button'); 
@@ -67,6 +102,13 @@ function escribeLogReplace(textIni,textFin,txtId){
   txtArea.value=txtArea.value.replace(textIni,textFin);
 }
 
+function putDataText(value){
+  const rangesIps=value.split('-')
+  const txtini=document.getElementById('tipi')
+  const txtfin=document.getElementById('tipf')
+  txtini.value=rangesIps[0];
+  txtfin.value=rangesIps[1];
+}
 
 function callIpUrl(ip){
   return new Promise((resolve,reject)=>{
@@ -85,6 +127,23 @@ function callIpUrl(ip){
               escribeLog(ip + '....FAIL','process')
               reject()
             }
+        }
+    }
+    http.send()
+  })
+}
+
+function getRanges(){
+  return new Promise((resolve,reject)=>{
+    const url = 'http://localhost:3000/ranges'
+    const http = new XMLHttpRequest()
+    http.open("GET", url)
+    http.onreadystatechange = function(){
+        if(this.readyState == 4 && this.status == 200){
+            var resultado = JSON.parse(this.responseText)
+            resolve(resultado)
+        }else if(this.readyState == 4 && this.status != 200){
+          reject('No data Ranges');
         }
     }
     http.send()
@@ -163,4 +222,7 @@ function thirdRound(){
     }
   });
 }
+
+
+window.onload = loadRanges;
 
