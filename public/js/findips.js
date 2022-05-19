@@ -1,9 +1,6 @@
 var firstIp =new Array();
 var secondIpFail =new Array();
 
-document.getElementById("bsround").style.display="none";
-document.getElementById("btround").style.display="none";
-
 
 const valideIp=function(textip){
   if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(textip))
@@ -23,31 +20,57 @@ const groupBy=function(arr, criteria) {
     }, {});
     return newObj
 }
+
 function valideData(){
   const fip=document.getElementById('tipi');
   const sip=document.getElementById('tipf');
+  const dError=document.getElementById('derror');
   if(valideIp(fip.value)==true){
       const arrIp1=fip.value.split('.')
       if(valideIp(sip.value)==true){
-        const arrIp2=sip.value.split('.')
-        const valIni=arrIp1[3]
-        const valFin=arrIp2[3]
-        const baseIp=arrIp1[0]+'.'+ arrIp1[1]+'.'+arrIp1[2]+'.'
-        borraBoton('dbbuttons');
-        document.getElementById("bsround").style.display="none"
-        document.getElementById("btround").style.display="none"
-        firstIp.length=0;
-        secondIpFail.length=0;
-        if (valIni<valFin){
-          for(let i=valIni;i<=valFin;i++){
-            creaBoton('dbbuttons',baseIp+i,i)
+          const arrIp2=sip.value.split('.')
+          if(arrIp1[0]==arrIp2[0]&&arrIp1[1]==arrIp2[1]&&arrIp1[2]==arrIp2[2]){
+            if(arrIp1[3]<arrIp2[3]){
+            const valIni=arrIp1[3]
+            const valFin=arrIp2[3]
+            const baseIp=arrIp1[0]+'.'+ arrIp1[1]+'.'+arrIp1[2]+'.'
+            borraBoton('dbbuttons');
+            document.getElementById("bsround").style.display="none"
+            document.getElementById("btround").style.display="none"
+            document.getElementById("error").style.display="none"
+            document.getElementById("process").style.display="";
+            document.getElementById("offline").style.display="";
+            document.getElementById("notrecover").style.display="";
+            firstIp.length=0;
+            secondIpFail.length=0;
+            if (valIni<valFin){
+              for(let i=valIni;i<=valFin;i++){
+                creaBoton('dbbuttons',baseIp+i,i)
+              }
+            }
+            return true
           }
+          dError.innerHTML="The initial IP should be lower thar de second IP"
+          return false
         }
-        return true
+        dError.innerHTML="Only can evaluate 255 hosts"
+        return false
       }
-     return false
-  }
-  return false
+      dError.innerHTML="the final Ip is not correct"
+      return false
+    }
+    dError.innerHTML="the initial Ip is not correct"
+    return false
+}
+
+function preparePage(){
+  document.getElementById("bsround").style.display="none";
+  document.getElementById("btround").style.display="none";
+  document.getElementById("derror").style.display="none";
+  document.getElementById("process").style.display="none";
+  document.getElementById("offline").style.display="none";
+  document.getElementById("notrecover").style.display="none";
+  loadRanges();
 }
 
 function loadRanges(){
@@ -55,6 +78,10 @@ function loadRanges(){
   .then((ranges)=>{
     const rangesGroup=groupBy(ranges.data,'name');
     const selectra=document.getElementById('srange')
+    let option = document.createElement("option");
+    option.setAttribute("value", '-');
+    option.innerHTML='Select a Range';
+    selectra.appendChild(option);
     for (let name in rangesGroup){
       let optgroup=document.createElement("optgroup");
       optgroup.label=name;
@@ -65,12 +92,11 @@ function loadRanges(){
           optgroup.appendChild(option)
         }
         selectra.appendChild(optgroup);
-
-    }
-  })
-  .catch((err)=>{
-    console.log(err)
-  })
+      }
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
 }
 
 
@@ -100,6 +126,7 @@ function escribeLog(Text,txtId){
 function escribeLogReplace(textIni,textFin,txtId){
   const txtArea=document.getElementById(txtId);
   txtArea.value=txtArea.value.replace(textIni,textFin);
+  txtArea.value = txtArea.value.trim();
 }
 
 function putDataText(value){
@@ -166,13 +193,16 @@ function firstRound(){
             if (buttons.length==index+1) document.getElementById("bsround").style.display="";
         })
       });
-  
+    }else{
+      document.getElementById("derror").style.display="";
     }
+    
 }
 
 function secondRound(){
   const buttons = document.getElementsByName('bip');
   let countArr=0;
+  escribeLog('Evaluating 1 Round onlines..','offline')
   buttons.forEach((element)=> {
     const evalFirstOnline=firstIp.includes(element.value)
     if(evalFirstOnline){
@@ -194,6 +224,7 @@ function secondRound(){
       })
     }
   });
+  escribeLog('Finish','offline')
 }
 
 
@@ -201,6 +232,7 @@ function secondRound(){
 function thirdRound(){
   const buttons = document.getElementsByName('bip');
   let countArr=0;
+  escribeLog('Evaluating fails en 2 Round..','notrecover')
   buttons.forEach((element)=> {
     const evalSecondOnline=secondIpFail.includes(element.value)
     if(evalSecondOnline){
@@ -221,8 +253,9 @@ function thirdRound(){
       })
     }
   });
+  escribeLog('Finish','notrecover')
 }
 
 
-window.onload = loadRanges;
+window.onload = preparePage;
 

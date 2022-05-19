@@ -1,33 +1,90 @@
+
 body {
     background-color: #002740;
     background-image: url("../img/network.jpg");
-    backdrop-filter: blur(2px);
+    height: 100%;
   }
 
-  footer{
-    background-color:#002740;
-    color:#DFE5E6
-  }
 
-  h1{
-      color:#286C8C;
-  }
+
+
+footer{
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    position: fixed;
+    justify-content:  space-between;
+    align-items: start;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #002740;
+    color: #DFE5E6;
+}
+.derror{
+
+}
+
+h1{
+    color:#286C8C;
+}
+
+h2{
+    color:#286C8C;
+}
+
 textarea{
-    width:95%;
+    width:100%;
     display:block;
     line-height:1.5;
     float: left;
-    padding:15px 15px 30px;
+    padding:15px 15px 15px;
     border-radius:3px;
     border:1px solid #01405D;
     background-color: #002740;
-    color:#DFE5E6;
-    font:13px Tahoma, cursive;
+    color:#ffffff;
+    font-display:initial;
+    font:14px Tahoma,verdana;
     transition:box-shadow 0.5s ease;
     box-shadow:0 4px 6px rgba(0,0,0,0.1);
     font-smoothing:subpixel-antialiased;
     
 }
+button{
+    background-color: #286C8C;
+}
+button.option{
+    background-color:aliceblue;
+}
+label{
+    color:#ffffff;
+    font-weight: 200;
+}
+a{
+    color:#DFE5E6;
+}
+
+#dhsup{
+    display:flex;
+    flex-direction: row;
+    flex-wrap:wrap;
+    align-items: start;
+    float: left;
+    justify-content: space-between;
+    top: 0;
+    bottom: 0;
+    height: 15%;
+    width: 100%;
+    background-color: #002740;
+    color: #DFE5E6;
+}
+
+.error{
+    background-color: brown;
+    color:aliceblue;
+    align-items: center;
+}
+
 .process{
     max-width:30%;
 }
@@ -40,6 +97,28 @@ textarea{
     max-width:30%;
 }
 
-label{
-    color:#DFE5E6;
+.select{
+    padding: 10px;
+    align-self: center;
+}
+.title{
+    padding: 5px;
+    align-items:center;
+}
+.titleimg{
+    padding: 10px;
+    align-items: flex-end;
+}
+.authorfoot{
+    padding: 10px;
+    max-width:30%;
+}
+.socialfoot{
+    padding: 10px;
+    max-width:30%;
+}
+
+.iconfoot{
+    padding: 10px;
+    max-width:30%;
 }

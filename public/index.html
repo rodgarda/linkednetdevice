@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="es">
+<html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,32 +10,39 @@
     <body>
         <header>
             <div id="dhsup" class="hsup">
-                <label for="srange">Ranges</label>
-                <select id="srange" name ="rangesip" onchange="putDataText(this.value)">
-                </select>
-                <label for="tipi">Ip Inicial</label>
-                <input type="text" name="pip" id="tipi" maxlength="15" placeholder="Ip Inicial">
-                <label for="tipf">Ip final</label>
-                <input type="text" name="sip" id="tipf" maxlength="15" placeholder="Ip Final" >
-                <button name="fround" id="bfround" value="First Round" onclick="firstRound()">First Round</button>
-                <button name="fround" id="bsround" value="Second Round" onclick="secondRound()">Second Round</button>
-                <button name="fround" id="btround" value="Third Round" onclick="thirdRound()">Third Round</button>
-                <h1>Ips Online</h1>
+                <div class="title">
+                    <h1 >Ips Online</h1>
+                </div>
+                <div class="select">
+                    <label for="srange">Ranges</label>
+                    <select id="srange" name ="rangesip" onchange="putDataText(this.value)">
+                    </select>
+                    <label for="tipi">Ip Inicial</label>
+                    <input type="text" name="pip" id="tipi" maxlength="15" placeholder="Ip Inicial">
+                    <label for="tipf">Ip final</label>
+                    <input type="text" name="sip" id="tipf" maxlength="15" placeholder="Ip Final" >
+                    <button name="fround" id="bfround" value="First Round" class="option" onclick="firstRound()">First Round</button>
+                    <button name="fround" id="bsround" value="Second Round"  class="option" onclick="secondRound()">Second Round</button>
+                    <button name="fround" id="btround" value="Third Round" class="option" onclick="thirdRound()">Third Round</button>
+                </div>
+                <div  class="titleimg">
+                    <img src="./img/appicon.png" alt="application linkednetdevice">
+                </div>
             </div>
-            <div id="dbbuttons" class="dbutton">
-
-            </div>
+        </header>
+        <main>
+            <div id="dbbuttons" class="dbutton"></div>
             <div id="dbtext" class="dtext">
                 <textarea id="process" class="process" readonly="readonly"></textarea>
                 <textarea id="offline" class="offline" readonly="readonly"></textarea>
                 <textarea id="notrecover" class="notrecover" readonly="readonly"></textarea>
             </div>
-            <div id="derror" class="error">
-
-            </div>
-        </header>
-        <main></main>
-        <footer><h2 class="footer">David Rodríguez García</h2> <h3 class="social">https://github.com/rodgarda</h3></footer>
+            <div id="derror" class="error"> </div>
+        </main>
+        <footer>
+            <h3 class="socialfoot"><a href="https://github.com/rodgarda" title="Developer's github">https://github.com/rodgarda/linkednetdevice</a></h3>
+            <h2 class="authorfoot">David Rodríguez García</h2> 
+            <img class="iconfoot" src="./img/davidrodriguezgarcia.png" alt="Autor David Rodríguez García" ></img></footer>
     </body>
     <script src="./js/findips.js"></script>
 </html>
