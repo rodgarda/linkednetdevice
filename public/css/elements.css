@@ -3,10 +3,7 @@ body {
     background-color: #002740;
     background-image: url("../img/network.jpg");
     height: 100%;
-  }
-
-
-
+}
 
 footer{
     display:flex;
@@ -20,9 +17,6 @@ footer{
     width: 100%;
     background-color: #002740;
     color: #DFE5E6;
-}
-.derror{
-
 }
 
 h1{
@@ -47,9 +41,9 @@ textarea{
     font:14px Tahoma,verdana;
     transition:box-shadow 0.5s ease;
     box-shadow:0 4px 6px rgba(0,0,0,0.1);
-    font-smoothing:subpixel-antialiased;
-    
+    font-smoothing:subpixel-antialiased;  
 }
+
 button{
     background-color: #286C8C;
 }
@@ -80,9 +74,14 @@ a{
 }
 
 .error{
-    background-color: brown;
+    background-color: rgb(249, 10, 10);
+    font:16px Tahoma,verdana;
     color:aliceblue;
-    align-items: center;
+    padding:30 px;
+    text-align: center; 
+    font-style: normal;
+    font-weight: bold;
+    border: 1px solid #a33a3a;
 }
 
 .process{

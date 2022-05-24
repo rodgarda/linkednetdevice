@@ -34,19 +34,15 @@ function valideData(){
             const valIni=arrIp1[3]
             const valFin=arrIp2[3]
             const baseIp=arrIp1[0]+'.'+ arrIp1[1]+'.'+arrIp1[2]+'.'
-            borraBoton('dbbuttons');
-            document.getElementById("bsround").style.display="none"
-            document.getElementById("btround").style.display="none"
-            document.getElementById("error").style.display="none"
-            document.getElementById("process").style.display="";
-            document.getElementById("offline").style.display="";
-            document.getElementById("notrecover").style.display="";
+            deleteButtons('dbbuttons');
+            prepareProcess();
             firstIp.length=0;
             secondIpFail.length=0;
             if (valIni<valFin){
               for(let i=valIni;i<=valFin;i++){
-                creaBoton('dbbuttons',baseIp+i,i)
+                addButtons('dbbuttons',baseIp+i,i)
               }
+              document.getElementById("bfround").disabled=true;
             }
             return true
           }
@@ -71,6 +67,15 @@ function preparePage(){
   document.getElementById("offline").style.display="none";
   document.getElementById("notrecover").style.display="none";
   loadRanges();
+}
+
+function prepareProcess(){
+  document.getElementById("bsround").style.display="none"
+  document.getElementById("btround").style.display="none"
+  document.getElementById("derror").style.display="none"
+  document.getElementById("process").style.display="";
+  document.getElementById("offline").style.display="";
+  document.getElementById("notrecover").style.display="";
 }
 
 function loadRanges(){
@@ -100,7 +105,7 @@ function loadRanges(){
 }
 
 
-function creaBoton(div,ip,pos){
+function addButtons(div,ip,pos){
   const button = document.createElement('button'); 
   button.type = 'button'; 
   button.name= 'bip'; 
@@ -110,20 +115,20 @@ function creaBoton(div,ip,pos){
   divbutton.appendChild(button); 
 }
 
-function borraBoton(div){
+function deleteButtons(div){
   divbutton=document.getElementById(div);
   while( divbutton.hasChildNodes() ){
     divbutton.removeChild(divbutton.lastChild);
   }
 }
 
-function escribeLog(Text,txtId){
+function writeLog(Text,txtId){
   const txtArea=document.getElementById(txtId);
   txtArea.value=txtArea.value + '\r\n' + Text
   txtArea.scrollTop=txtArea.scrollHeight;
 }
 
-function escribeLogReplace(textIni,textFin,txtId){
+function writeLogReplace(textIni,textFin,txtId){
   const txtArea=document.getElementById(txtId);
   txtArea.value=txtArea.value.replace(textIni,textFin);
   txtArea.value = txtArea.value.trim();
@@ -142,16 +147,16 @@ function callIpUrl(ip){
     const url = 'http://localhost:3000/device?ip='+ ip
     const http = new XMLHttpRequest()
     http.open("GET", url)
-    escribeLog(ip + '....','process',)
+    writeLog(ip + '....','process',)
     http.onreadystatechange = function(){
         if(this.readyState == 4 && this.status == 200){
             var resultado = JSON.parse(this.responseText)
-            escribeLogReplace(ip + '....','','process')
+            writeLogReplace(ip + '....','','process')
             if (resultado['status']==200){
-              escribeLog(ip + '....OK','process')
+              writeLog(ip + '....OK','process')
               resolve(true)
             }else if (resultado['status']==400){
-              escribeLog(ip + '....FAIL','process')
+              writeLog(ip + '....FAIL','process')
               reject()
             }
         }
@@ -190,7 +195,10 @@ function firstRound(){
           element.className="ipfail"
         })
         .finally(()=>{
-            if (buttons.length==index+1) document.getElementById("bsround").style.display="";
+            if (buttons.length==index+1) {
+              document.getElementById("bsround").style.display="";
+              document.getElementById("bfround").disabled=false;
+            }
         })
       });
     }else{
@@ -202,21 +210,21 @@ function firstRound(){
 function secondRound(){
   const buttons = document.getElementsByName('bip');
   let countArr=0;
-  escribeLog('Evaluating 1 Round onlines..','offline')
+  writeLog('Evaluating 1 Round onlines..','offline')
   buttons.forEach((element)=> {
     const evalFirstOnline=firstIp.includes(element.value)
     if(evalFirstOnline){
-      escribeLog(element.value + '....','offline')
+      writeLog(element.value + '....','offline')
       callIpUrl(element.value)
       .then((data)=>{
-        escribeLogReplace(element.value + '....','','offline')
+         writeLogReplace(element.value + '....',element.value + '....OK','offline')
         element.className="ipok"
       })
       .catch((err)=>{
         element.className="ipfailsecond"
         secondIpFail.push(element.value);
-        escribeLogReplace(element.value + '....','','offline')
-        escribeLog(element.value + '....FAIL','offline')
+        writeLogReplace(element.value + '....','','offline')
+        writeLog(element.value + '....FAIL','offline')
       })
       .finally(()=>{
         countArr++;
@@ -224,7 +232,7 @@ function secondRound(){
       })
     }
   });
-  escribeLog('Finish','offline')
+  writeLog('Finish','offline')
 }
 
 
@@ -232,20 +240,20 @@ function secondRound(){
 function thirdRound(){
   const buttons = document.getElementsByName('bip');
   let countArr=0;
-  escribeLog('Evaluating fails en 2 Round..','notrecover')
+  writeLog('Evaluating fails en 2 Round..','notrecover')
   buttons.forEach((element)=> {
     const evalSecondOnline=secondIpFail.includes(element.value)
     if(evalSecondOnline){
-      escribeLog(element.value + '....','notrecover')
+      writeLog(element.value + '....','notrecover')
       callIpUrl(element.value)
       .then((data)=>{
         element.className="ipok"
-        escribeLogReplace(element.value + '....',element.value + '....OK','notrecover')
+        writeLogReplace(element.value + '....',element.value + '....OK','notrecover')
       })
       .catch((err)=>{
         element.className="ipfailthird"
-        escribeLogReplace(element.value + '....','','notrecover')
-        escribeLog(element.value + '....FAIL','notrecover')
+        writeLogReplace(element.value + '....','','notrecover')
+        writeLog(element.value + '....FAIL','notrecover')
       })
       .finally(()=>{
         countArr++;
@@ -253,7 +261,7 @@ function thirdRound(){
       })
     }
   });
-  escribeLog('Finish','notrecover')
+  writeLog('Finish','notrecover')
 }
 
 

@@ -9,6 +9,7 @@ const ranges=require('./public/data/ranges')
 var publicPath = path.resolve(__dirname, 'public'); 
 // Para que los archivos estaticos queden disponibles.
 app.use(express.static(publicPath));
+
 app.get("/",(req,res)=>{
     res.sendFile(path.join(__dirname) + "/public/index.html") 
 })
@@ -21,17 +22,17 @@ app.get("/device/",(req,res)=>{
         alive = isAlive ? true : false;
 
         if (alive==true){
-            res.send(JSON.stringify({ status: 200 }));
+            res.json({ status: 200 });
         }else{
-            res.send(JSON.stringify({ status: 400  }));
+            res.json({ status: 400 });
         }
     })
 })
 
 app.get("/ranges",(req,res)=>{
-    res.send(JSON.stringify({ data:ranges.rangeIp }));
-    
+    res.json({ data:ranges.rangeIp });
 })
+
 app.listen(Port,()=>{
     console.log("Server Running on Port " + Port)
 })
